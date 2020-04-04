@@ -3,7 +3,6 @@ package org.ghgs.chalenges;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
-import java.util.Scanner;
 
 import static org.junit.Assert.*;
 
