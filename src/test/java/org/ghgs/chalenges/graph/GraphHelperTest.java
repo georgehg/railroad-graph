@@ -57,12 +57,12 @@ public class GraphHelperTest {
 
     @Test
     public void routesCountWithMaxStop_CC() {
-        assertEquals(2, GraphHelper.routesWithMaxStops(GRAPH, City.of("C"), City.of("C"), 3, 0));
+        assertEquals(2, GraphHelper.routesCountWithMaxStops(GRAPH, City.of("C"), City.of("C"), 3, 0));
     }
 
     @Test
     public void routesCountWithFixedStops_AC() {
-        assertEquals(3, GraphHelper.routesWithFixedStops(GRAPH, City.of("A"), City.of("C"), 4, 0, 0));
+        assertEquals(3, GraphHelper.routesCountWithFixedStops(GRAPH, City.of("A"), City.of("C"), 4, 0, 0));
     }
 
     @Test
@@ -75,5 +75,9 @@ public class GraphHelperTest {
         assertEquals(9, GraphHelper.shortestDistance(GRAPH, City.of("B"), City.of("B"), 0, 0, null));
     }
 
+    @Test
+    public void totalRoutesCount_CC() {
+        assertEquals(7, GraphHelper.totalRoutesCount(GRAPH, City.of("C"), City.of("C"), 30, 0, 0));
+    }
 
 }

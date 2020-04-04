@@ -22,7 +22,6 @@ public class GraphHelper {
     }
 
     public static int routeDistance(RailRoad graph, City... cities) {
-
         AtomicInteger visited = new AtomicInteger(0);
 
         int routeDistance = IntStream.range(0, cities.length - 1)
@@ -42,8 +41,7 @@ public class GraphHelper {
         return routeDistance;
     }
 
-    public static int routesWithMaxStops(RailRoad graph, City start, City target, int maxStops, int pathCount) {
-
+    public static int routesCountWithMaxStops(RailRoad graph, City start, City target, int maxStops, int pathCount) {
         if (maxStops == 0) {
             return pathCount;
         }
@@ -53,15 +51,14 @@ public class GraphHelper {
                 pathCount++;
             } else{
                 int currentMaxStops = maxStops-1;
-                pathCount = routesWithMaxStops(graph, route.getTarget(), target, currentMaxStops, pathCount);
+                pathCount = routesCountWithMaxStops(graph, route.getTarget(), target, currentMaxStops, pathCount);
             }
         }
 
         return pathCount;
     }
 
-    public static int routesWithFixedStops(RailRoad graph, City start, City target, final int fixedStops, int stopCount, int pathCount) {
-
+    public static int routesCountWithFixedStops(RailRoad graph, City start, City target, final int fixedStops, int stopCount, int pathCount) {
         if (stopCount == fixedStops) {
             return pathCount;
         }
@@ -72,15 +69,14 @@ public class GraphHelper {
             if (route.getTarget().equals(target) && currentStopCount == fixedStops) {
                 pathCount++;
             } else{
-                pathCount = routesWithFixedStops(graph, route.getTarget(), target, fixedStops, currentStopCount, pathCount);
+                pathCount = routesCountWithFixedStops(graph, route.getTarget(), target, fixedStops, currentStopCount, pathCount);
             }
         }
 
         return pathCount;
     }
 
-    public static int shortestDistance(RailRoad graph, City start, City target, int totalDistance, int shortestDistance, List<City> visited){
-
+    public static int shortestDistance(RailRoad graph, City start, City target, int totalDistance, int shortestDistance, List<City> visited) {
         if (visited == null) {
             visited = new ArrayList<>();
         }
@@ -112,6 +108,25 @@ public class GraphHelper {
         visited.remove(start);
         return shortestDistance;
 
+    }
+
+
+    public static int totalRoutesCount(RailRoad graph, City start, City target, final int maxDistance, int totalDistance, int pathCount) {
+        if (totalDistance == maxDistance) {
+            return pathCount;
+        }
+
+        for(Route route : graph.getCityRoutes(start)) {
+            if (totalDistance + route.getDistance() < maxDistance) {
+                if (route.getTarget().equals(target)) {
+                    pathCount++;
+                }
+
+                pathCount = totalRoutesCount(graph, route.getTarget(), target, maxDistance, totalDistance + route.getDistance(), pathCount);
+            }
+        }
+
+        return pathCount;
     }
 
 }
