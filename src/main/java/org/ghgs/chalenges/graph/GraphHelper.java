@@ -1,5 +1,7 @@
 package org.ghgs.chalenges.graph;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
@@ -52,7 +54,6 @@ public class GraphHelper {
             } else{
                 int currentMaxStops = maxStops-1;
                 pathCount = routesWithMaxStops(graph, route.getTarget(), target, currentMaxStops, pathCount);
-
             }
         }
 
@@ -67,6 +68,7 @@ public class GraphHelper {
 
         for(Route route : graph.getCityRoutes(start)) {
             int currentStopCount = stopCount+1;
+
             if (route.getTarget().equals(target) && currentStopCount == fixedStops) {
                 pathCount++;
             } else{
@@ -75,6 +77,41 @@ public class GraphHelper {
         }
 
         return pathCount;
+    }
+
+    public static int shortestDistance(RailRoad graph, City start, City target, int totalDistance, int shortestDistance, List<City> visited){
+
+        if (visited == null) {
+            visited = new ArrayList<>();
+        }
+
+        if (visited.contains(start)) {
+            return shortestDistance;
+        } else {
+            visited.add(start);
+        }
+
+        int currentTotalDistance = totalDistance;
+
+        for(Route route : graph.getCityRoutes(start)) {
+            if (route.getTarget().equals(target) ) {
+                int currentShortestDistance = currentTotalDistance += route.getDistance();
+                if (shortestDistance == 0) {
+                    shortestDistance = currentShortestDistance;
+                } else if (currentShortestDistance < shortestDistance) {
+                    shortestDistance = currentShortestDistance;
+                }
+
+            } else{
+                shortestDistance = shortestDistance(graph, route.getTarget(), target, currentTotalDistance + route.getDistance(), shortestDistance ,visited);
+
+            }
+
+        }
+
+        visited.remove(start);
+        return shortestDistance;
+
     }
 
 }

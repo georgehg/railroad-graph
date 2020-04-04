@@ -61,8 +61,19 @@ public class GraphHelperTest {
     }
 
     @Test
-    public void routesCountWithTotalStops_AC() {
+    public void routesCountWithFixedStops_AC() {
         assertEquals(3, GraphHelper.routesWithFixedStops(GRAPH, City.of("A"), City.of("C"), 4, 0, 0));
     }
+
+    @Test
+    public void shortestDistance_AC() {
+        assertEquals(9, GraphHelper.shortestDistance(GRAPH, City.of("A"), City.of("C"), 0, 0, null));
+    }
+
+    @Test
+    public void shortestDistance_BB() {
+        assertEquals(9, GraphHelper.shortestDistance(GRAPH, City.of("B"), City.of("B"), 0, 0, null));
+    }
+
 
 }
