@@ -1,6 +1,9 @@
 package org.ghgs.chalenges;
 
+import java.util.Arrays;
 import java.util.Scanner;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class InputHelper {
 
@@ -26,6 +29,12 @@ public class InputHelper {
             throw e;
         }
 
+    }
+
+    public static Set<String> parseRouteSet(String graphInput) {
+        return Arrays.stream(graphInput.split("[,|;]"))
+                .map(String::trim)
+                .collect(Collectors.toSet());
     }
 
 }

@@ -30,7 +30,6 @@ public class RailRoad {
         private RailRoad railRoad;
         private City from;
         private City to;
-        private Integer Cost;
 
         public RouteBuilder(RailRoad railRoad) {
             this.railRoad = railRoad;
@@ -47,11 +46,23 @@ public class RailRoad {
         }
 
         public RailRoad withCost(Integer cost) {
-            Cost = cost;
+            Objects.requireNonNull(cost);
             this.railRoad.addRoute(from, new Route(to, cost));
             return this.railRoad;
         }
 
     }
 
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        routes.forEach((city, routeList) ->
+            routeList.forEach(route -> {
+                stringBuilder.append(city.getName());
+                stringBuilder.append(route.toString());
+                stringBuilder.append(", ");
+            }));
+
+        return stringBuilder.toString();
+    }
 }
