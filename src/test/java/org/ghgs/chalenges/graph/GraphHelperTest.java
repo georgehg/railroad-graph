@@ -1,6 +1,7 @@
 package org.ghgs.chalenges.graph;
 
 import org.ghgs.chalenges.InputHelper;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.Set;
@@ -9,18 +10,49 @@ import static org.junit.Assert.*;
 
 public class GraphHelperTest {
 
-    @Test
-    public void createRailRoadGraph() {
+    private static RailRoad GRAPH;
+
+    @BeforeClass
+    public static void initGraph() {
         final String userGraphInput = "AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7";
         Set<String> routeSet = InputHelper.parseRouteSet(userGraphInput);
 
-        RailRoad graph = GraphHelper.createGraph(routeSet);
+        GRAPH = GraphHelper.createGraph(routeSet);
+    }
 
-        assertEquals(3, graph.getCityRoutes(City.of("A")).size());
-        assertEquals(1, graph.getCityRoutes(City.of("B")).size());
-        assertEquals(2, graph.getCityRoutes(City.of("C")).size());
-        assertEquals(2, graph.getCityRoutes(City.of("D")).size());
-        assertEquals(1, graph.getCityRoutes(City.of("E")).size());
+
+    @Test
+    public void createRailRoadGraph() {
+        assertEquals(3, GRAPH.getCityRoutes(City.of("A")).size());
+        assertEquals(1, GRAPH.getCityRoutes(City.of("B")).size());
+        assertEquals(2, GRAPH.getCityRoutes(City.of("C")).size());
+        assertEquals(2, GRAPH.getCityRoutes(City.of("D")).size());
+        assertEquals(1, GRAPH.getCityRoutes(City.of("E")).size());
+    }
+
+    @Test
+    public void routeDistance_ABC() {
+        assertEquals(9, GraphHelper.routeDistance(GRAPH, City.of("A"), City.of("B"), City.of("C")));
+    }
+
+    @Test
+    public void routeDistance_AD() {
+        assertEquals(5, GraphHelper.routeDistance(GRAPH, City.of("A"), City.of("D")));
+    }
+
+    @Test
+    public void routeDistance_ADC() {
+        assertEquals(13, GraphHelper.routeDistance(GRAPH, City.of("A"), City.of("D"), City.of("C")));
+    }
+
+    @Test
+    public void routeDistance_AEBCD() {
+        assertEquals(22, GraphHelper.routeDistance(GRAPH, City.of("A"), City.of("E"), City.of("B"), City.of("C"), City.of("D")));
+    }
+
+    @Test(expected = NoSuchRouteException.class)
+    public void routeDistance_AED() {
+        GraphHelper.routeDistance(GRAPH, City.of("A"), City.of("E"), City.of("D"));
     }
 
 }

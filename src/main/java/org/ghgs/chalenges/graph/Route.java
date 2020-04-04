@@ -6,11 +6,19 @@ public class Route {
 
     private final City target;
 
-    private final Integer cost;
+    private final Integer distance;
 
-    Route(City target, Integer cost) {
+    Route(City target, Integer distance) {
         this.target = target;
-        this.cost = cost;
+        this.distance = distance;
+    }
+
+    public City getTarget() {
+        return target;
+    }
+
+    public Integer getDistance() {
+        return distance;
     }
 
     @Override
@@ -19,18 +27,17 @@ public class Route {
         if (o == null || getClass() != o.getClass()) return false;
         Route route = (Route) o;
         return target.equals(route.target) &&
-                cost.equals(route.cost);
+                distance.equals(route.distance);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(target, cost);
+        return Objects.hash(target, distance);
     }
 
     @Override
     public String toString() {
-        return this.target.getName() + this.cost;
+        return this.target.getName() + this.distance;
     }
 
 }
-
