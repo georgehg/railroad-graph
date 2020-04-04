@@ -40,4 +40,41 @@ public class GraphHelper {
         return routeDistance;
     }
 
+    public static int routesWithMaxStops(RailRoad graph, City start, City target, int maxStops, int pathCount) {
+
+        if (maxStops == 0) {
+            return pathCount;
+        }
+
+        for(Route route : graph.getCityRoutes(start)) {
+            if (route.getTarget().equals(target)) {
+                pathCount++;
+            } else{
+                int currentMaxStops = maxStops-1;
+                pathCount = routesWithMaxStops(graph, route.getTarget(), target, currentMaxStops, pathCount);
+
+            }
+        }
+
+        return pathCount;
+    }
+
+    public static int routesWithFixedStops(RailRoad graph, City start, City target, final int fixedStops, int stopCount, int pathCount) {
+
+        if (stopCount == fixedStops) {
+            return pathCount;
+        }
+
+        for(Route route : graph.getCityRoutes(start)) {
+            int currentStopCount = stopCount+1;
+            if (route.getTarget().equals(target) && currentStopCount == fixedStops) {
+                pathCount++;
+            } else{
+                pathCount = routesWithFixedStops(graph, route.getTarget(), target, fixedStops, currentStopCount, pathCount);
+            }
+        }
+
+        return pathCount;
+    }
+
 }

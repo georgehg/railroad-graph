@@ -55,4 +55,14 @@ public class GraphHelperTest {
         GraphHelper.routeDistance(GRAPH, City.of("A"), City.of("E"), City.of("D"));
     }
 
+    @Test
+    public void routesCountWithMaxStop_CC() {
+        assertEquals(2, GraphHelper.routesWithMaxStops(GRAPH, City.of("C"), City.of("C"), 3, 0));
+    }
+
+    @Test
+    public void routesCountWithTotalStops_AC() {
+        assertEquals(3, GraphHelper.routesWithFixedStops(GRAPH, City.of("A"), City.of("C"), 4, 0, 0));
+    }
+
 }
